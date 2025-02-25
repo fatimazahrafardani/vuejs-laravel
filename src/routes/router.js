@@ -4,21 +4,24 @@ import ContactList from "../components/ContactList.vue";
 import { createRouter, createWebHistory } from "vue-router"
 
 
-const routes =[
-    { 
-        name: "AddContact",
-        path: "/add",
-        component: AddContact,
+
+const routes = [
+    {
+      name: "AddContact",
+      path: "/add",
+      component: AddContact,
     },
     {
-        
-        name: "ContactList",
-        path: "/cantactlist",
-        component :ContactList,
-        
-    }
-
-]
+      name: "ContactList",
+      path: "/contactlist",
+      component: ContactList,
+    },
+    {
+      path: "/",
+      redirect: "/contactlist", // Redirect to a default route
+    },
+  ];
+  
  const router = createRouter({
     history: createWebHistory(),
     routes

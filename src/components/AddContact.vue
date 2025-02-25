@@ -1,31 +1,95 @@
 <template>
-  <div>
-    <h1>{{ title }}</h1>
-    <h1>addddd</h1>
+  <div class="form-container">
+    <h2>Add Contact</h2>
+    <form @submit.prevent="submitForm">
+      <label>Name:</label>
+      <input type="text" v-model="contact.name" required />
+
+      <label>Email:</label>
+      <input type="email" v-model="contact.email" required />
+
+      <label>Designation:</label>
+      <input type="text" v-model="contact.designation" required />
+
+      <label>Contact No:</label>
+      <input type="text" v-model="contact.contact_no" required />
+
+      <button type="submit">Add Contact</button>
+    </form>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "AddContact",
   data() {
     return {
-      title: "Hello Vue!",
+      contact: {
+        name: "",
+        email: "",
+        designation: "",
+        contact_no: "",
+      },
     };
   },
   methods: {
-    myMethod() {
-      console.log("Method executed!");
-    }
+    async submitForm() {
+      try {
+        const response = await axios.post("http://127.0.0.1:8000/contacts", this.contact);
+        console.log(response.data);
+        alert("Contact added successfully!");
+        this.contact = { name: "", email: "", designation: "", contact_no: "" };
+      } catch (error) {
+        console.error("Error adding contact:", error.response?.data || error.message);
+      }
+    },
   },
-  mounted() {
-    console.log("Component mounted!");
-  }
 };
 </script>
 
 <style scoped>
-h1 {
-  color: #42b983;
+.form-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #b80202, #670000);
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  text-align: center;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background-color: white;
+  color: #b80202;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #f7e4e4;
 }
 </style>
