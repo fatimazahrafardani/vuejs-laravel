@@ -2,6 +2,9 @@
   <div class="form-container">
     <h2>Add Contact</h2>
     <form @submit.prevent="submitForm">
+      <label>id:</label>
+      <input type="text" v-model="contact.id" required />
+
       <label>Name:</label>
       <input type="text" v-model="contact.name" required />
 
@@ -27,6 +30,7 @@ export default {
   data() {
     return {
       contact: {
+        id: "",
         name: "",
         email: "",
         designation: "",
@@ -35,17 +39,24 @@ export default {
     };
   },
   methods: {
-    async submitForm() {
-      try {
-        const response = await axios.post("http://127.0.0.1:8000/contacts", this.contact);
-        console.log(response.data);
-        alert("Contact added successfully!");
-        this.contact = { name: "", email: "", designation: "", contact_no: "" };
-      } catch (error) {
-        console.error("Error adding contact:", error.response?.data || error.message);
-      }
-    },
+  async submitForm() {
+    try {
+      // Récupérer le token CSRF
+      await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie");
+
+      // Envoyer la requête avec le token
+      const response = await axios.post("http://127.0.0.1:8000/contacts", this.contact);
+      console.log(response.data);
+      alert("Contact added successfully!");
+
+      // Réinitialiser le formulaire
+      this.contact = { id: "", name: "", email: "", designation: "", contact_no: "" };
+    } catch (error) {
+      console.error("Error adding contact:", error.response?.data || error.message);
+    }
   },
+}
+
 };
 </script>
 
