@@ -8,6 +8,7 @@
           <th>Email</th>
           <th>Designation</th>
           <th>Contact No</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -17,6 +18,10 @@
           <td>{{ contact.email }}</td>
           <td>{{ contact.designation }}</td>
           <td>{{ contact.contact_no }}</td>
+          <td><button @click.prevent="deletecontact(contact.id)">delete</button> <span></span>
+            <router-link :to="{name:'EditContact', params:{id:contact.id}}">update</router-link>
+            </td>
+
         </tr>
       </tbody>
     </table>
@@ -38,7 +43,7 @@ export default {
   },
   methods: {
     async getcontacts() {
-      let url = "http://127.0.0.1:8000/contacts";
+      let url = "http://127.0.0.1:8000/api/contact";
       await axios
         .get(url)
         .then((response) => {
@@ -48,6 +53,22 @@ export default {
           console.log(error);
         });
     },
+    async deletecontact(id) {
+      let url = `http://127.0.0.1:8000/api/contact/${id}`;
+      await axios.delete(url).then(response=>{
+        if(response.data.code == 200){
+          alert(response.data.message);
+          this.getcontacts();
+
+        }
+      })
+      .catch(error =>{
+        console.log(error);
+      }
+      )
+     
+    }
+
   },
 };
 </script>

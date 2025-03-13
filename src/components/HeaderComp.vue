@@ -8,17 +8,13 @@
 
       <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <router-link class="nav-link active" >Home
-              <span class="visually-hidden">(current)</span>
-            </router-link>
-          </li>
+         
           <li class="nav-item">
             <router-link class="nav-link" to="/add">Add Contact</router-link>
           </li>
           <li class="nav-item">
 
-            <router-link class="nav-link" to="cantactlist">ContactList</router-link>
+            <router-link class="nav-link" to="ContactList">ContactList</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">About</a>

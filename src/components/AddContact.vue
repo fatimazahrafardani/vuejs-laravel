@@ -1,10 +1,15 @@
 <template>
   <div class="form-container">
     <h2>Add Contact</h2>
-    <form @submit.prevent="submitForm">
-      <label>id:</label>
-      <input type="text" v-model="contact.id" required />
+    <div class="alert">
+      <ul>
+        <li v-for="(error, index) in errors" :key="index">
+          {{ error }}
 
+        </li>
+      </ul>
+    </div>
+    <form @submit.prevent="submitForm">
       <label>Name:</label>
       <input type="text" v-model="contact.name" required />
 
@@ -30,31 +35,44 @@ export default {
   data() {
     return {
       contact: {
-        id: "",
         name: "",
         email: "",
         designation: "",
         contact_no: "",
+        errors:[],
       },
     };
   },
   methods: {
   async submitForm() {
     try {
-      // Récupérer le token CSRF
-      await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie");
 
-      // Envoyer la requête avec le token
-      const response = await axios.post("http://127.0.0.1:8000/contacts", this.contact);
+      const response = await axios.post("http://127.0.0.1:8000/api/contact", this.contact);
       console.log(response.data);
       alert("Contact added successfully!");
 
       // Réinitialiser le formulaire
-      this.contact = { id: "", name: "", email: "", designation: "", contact_no: "" };
+      this.contact = {  name: "", email: "", designation: "", contact_no: "" };
     } catch (error) {
       console.error("Error adding contact:", error.response?.data || error.message);
     }
   },
+  savecontact(){
+    this.errors=[];
+    if(!this.contact.name){
+      this.errors.push('Name is required');
+    }
+    if(!this.contact.email){
+      this.errors.push('Email is required');
+    }
+    if(!this.contact.designation){
+      this.errors.push('Designation is required');
+    }
+    if(!this.contact.contact_no){
+        this.errors.push('Contact Number is required');
+    }
+
+  }
 }
 
 };

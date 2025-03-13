@@ -1,6 +1,7 @@
 
 import AddContact from "../components/AddContact.vue";
 import ContactList from "../components/ContactList.vue";
+import EditContact from "@/components/EditContact.vue";
 import { createRouter, createWebHistory } from "vue-router"
 
 
@@ -13,12 +14,17 @@ const routes = [
     },
     {
       name: "ContactList",
-      path: "/contactlist",
+      path: "/ContactList",
       component: ContactList,
     },
     {
+      name: "EditContact",
+      path: "/EditContact/edit/:id",
+      component: EditContact,
+    },
+    {
       path: "/",
-      redirect: "/contactlist", // Redirect to a default route
+      redirect: "/ContactList", // Redirect to a default route
     },
   ];
   
